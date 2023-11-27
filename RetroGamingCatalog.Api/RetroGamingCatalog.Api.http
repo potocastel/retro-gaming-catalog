@@ -1,0 +1,24 @@
+@RetroGamingCatalog.Api_HostAddress = http://localhost:54570
+
+GET http://localhost:54570/games/
+Accept: application/json
+
+###
+
+GET http://localhost:54570/games/mario
+Accept: application/json
+
+###
+
+POST http://localhost:54570/games/
+Content-Type: application/json
+Accept: application/json
+
+{
+    "Id":"3AEDCB60-1A85-4EBB-A0A6-0A2037D3709A",
+    "Name":"Dr Mario",
+    "Description":"Mario is now a doctor and try to get rid of all the viruses",
+    "ConsoleName":"NES"
+}
+
+###
