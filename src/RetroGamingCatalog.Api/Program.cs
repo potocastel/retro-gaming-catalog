@@ -1,9 +1,7 @@
 using System.Text.Json.Serialization;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.EntityFrameworkCore;
-using RetroGamingCatalog.Api;
+using RetroGamingCatalog.Api.Endpoints;
+using RetroGamingCatalog.Api.Queries;
 using RetroGamingCatalog.Dao;
-using RetroGamingCatalog.Api.DTOs;
 
 var builder = WebApplication.CreateSlimBuilder(args);
 

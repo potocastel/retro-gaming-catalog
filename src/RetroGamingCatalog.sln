@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RetroGamingCatalog.Api", "R
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RetroGamingCatalog.Dao", "RetroGamingCatalog.Dao\RetroGamingCatalog.Dao.csproj", "{3272AD3A-5309-4FFF-8AB2-32A45691CFAF}"
 EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "retrogamingcatalog.react", "RetroGamingCatalog.React\retrogamingcatalog.react.esproj", "{A57059F1-B059-4F4F-99B4-43D68B330C37}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,12 @@ Global
 		{3272AD3A-5309-4FFF-8AB2-32A45691CFAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3272AD3A-5309-4FFF-8AB2-32A45691CFAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3272AD3A-5309-4FFF-8AB2-32A45691CFAF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A57059F1-B059-4F4F-99B4-43D68B330C37}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A57059F1-B059-4F4F-99B4-43D68B330C37}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A57059F1-B059-4F4F-99B4-43D68B330C37}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{A57059F1-B059-4F4F-99B4-43D68B330C37}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A57059F1-B059-4F4F-99B4-43D68B330C37}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A57059F1-B059-4F4F-99B4-43D68B330C37}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

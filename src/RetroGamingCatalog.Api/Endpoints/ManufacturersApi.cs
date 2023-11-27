@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RetroGamingCatalog.Dao;
 
-namespace RetroGamingCatalog.Api;
+namespace RetroGamingCatalog.Api.Endpoints;
 
 public static class ManufacturersApi
 {
