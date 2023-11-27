@@ -7,7 +7,7 @@ namespace RetroGamingCatalog.Api.DTOs
         public Guid Id { get; set; }
         public required string Name { get; set; }
 
-        public ConsoleDto From(Console c) => new()
+        public static ConsoleDto From(Console c) => new()
         {
             Id=c.Id,
             Name = c.Name

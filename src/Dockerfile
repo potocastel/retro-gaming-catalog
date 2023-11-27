@@ -14,7 +14,7 @@ RUN curl -SL --output vs_buildtools.exe https://aka.ms/vs/17/release/vs_buildtoo
 RUN vs_buildtools.exe --installPath C:\BuildTools --add Microsoft.VisualStudio.Component.VC.Tools.x86.x64 Microsoft.VisualStudio.Component.Windows10SDK.19041 --quiet --wait --norestart --nocache
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["RetroGamingCatalog.Api/RetroGamingCatalog.Api.csproj", "RetroGamingCatalog.Api/"]
+COPY ["RetroGamingCatalog.Api/RetroGamingCatalog.Api.csproj", "RetroGamffingCatalog.Api/"]
 RUN dotnet restore "./RetroGamingCatalog.Api/./RetroGamingCatalog.Api.csproj"
 COPY . .
 WORKDIR "/src/RetroGamingCatalog.Api"
@@ -24,8 +24,9 @@ FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
 RUN dotnet publish "./RetroGamingCatalog.Api.csproj" -c %BUILD_CONFIGURATION% -o /app/publish /p:UseAppHost=true
 
-FROM mcr.microsoft.com/dotnet/runtime:8.0-nanoserver-1809 AS final
+FROM mcr.microsoft.com/dotnet/core/aspnet:8.0-nanoserver-1809 AS final
 WORKDIR /app
 EXPOSE 8080
 COPY --from=publish /app/publish .
 ENTRYPOINT ["RetroGamingCatalog.Api.exe"]
+
