@@ -9,7 +9,8 @@ public static class GamesApi
     public static RouteGroupBuilder BuildGamesApi(this WebApplication webapp)
     {
         var rgb = webapp.MapGroup("/games");
-        rgb.MapGet("/", async (CatalogDb db) => await db.Games.Include(g => g.Console.Manufacturer).Select(g => GameDto.From(g)).ToListAsync());
+        rgb.MapGet("/", async (CatalogDb db) => await 
+            db.Games.Include(g => g.Console.Manufacturer).Select(g => GameDto.From(g)).ToListAsync());
 
         rgb.MapGet("/{name}", async
             (CatalogDb db, string name) =>

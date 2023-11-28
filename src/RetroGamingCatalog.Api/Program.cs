@@ -13,6 +13,8 @@ builder.Services.ConfigureHttpJsonOptions(options =>
 builder.Services.AddDbContext<CatalogDb>();//opt => opt.UseInMemoryDatabase("catalog", x => { }));
 builder.Services.AddTransient<SampleDataInitialization>();
 builder.Services.AddQueries();
+builder.Services.AddCors(cors => 
+    cors.AddDefaultPolicy(pb=>pb.AllowAnyOrigin()));
 
 var app = builder.Build();
 
@@ -22,6 +24,8 @@ await using (var scope = app.Services.CreateAsyncScope())
 app.BuildGamesApi();
 app.BuildConsolesApi();
 app.BuildManufacturers();
+
+app.UseCors(cpb => cpb.AllowAnyOrigin());
 
 app.Run();
 

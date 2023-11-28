@@ -46,9 +46,21 @@ export default defineConfig({
     },
     server: {
         proxy: {
-            '^/weatherforecast': {
-                target: 'https://localhost:5001/',
+            '/consoles': {
+                target: 'http://localhost:5025/',
+                rewrite: (path) => path.replace(/^\/consoles/, ''),
                 secure: false
+            },
+            '/gameslist': {
+                target: 'http://localhost:5025/',
+                changeOrigin: true,
+                rewrite: path => path.replace('gameslist', 'games'),
+                                                secure: false
+            },
+            '/manufacturers': {
+                target: 'http://localhost:5025/',
+                rewrite: (path) => path.replace(/^\/manufacturers/, ''),
+                                secure: false
             }
         },
         port: 5173,
