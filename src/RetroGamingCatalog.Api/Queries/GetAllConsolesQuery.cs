@@ -12,5 +12,5 @@ public class GetAllConsolesQuery : IQuery
         _db = db;
     }
     public async Task<List<ConsoleDto>> SelectAsync() =>
-        await _db.Consoles.Select(c => ConsoleDto.From(c)).ToListAsync();
+        await _db.Consoles.Include(c=>c.Manufacturer).Select(c => ConsoleDto.From(c)).ToListAsync();
 }
