@@ -1,52 +1,76 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
+import EditGame from "./EditGame.jsx";
 
 function GamesList() {
+  const [games, setGames] = useState();
+  const [selectedId, setSelectedId] = useState(null);
 
-    const [games, setGames] = useState();
+  const getFeedback = () => {
+    selectedId=null;
+  }
 
-    useEffect(() => {
-        populateGamesList();
-    }, []);
+  useEffect(() => {
+    populateGamesList();
+  }, []);
 
+  const contents =
+    selectedId === null ? (
+      games === undefined ? (
+        <p>
+          <em>Loading... </em>
+        </p>
+      ) : (
+        <table className="table table-striped" aria-labelledby="tableGames">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Console</th>
+              <th>Manufacturer</th>
+              <th>#</th>
+            </tr>
+          </thead>
+          <tbody>
+            {games.map((game) => (
+              <tr key={game.id}>
+                <td>{game.name}</td>
+                <td>{game.consoleName}</td>
+                <td>{game.manufacturerName}</td>
+                <td>
+                  <button
+                    type="button"
+                    className="btn btn-sm btn-primary mx-1"
+                    onClick={() => setSelectedId(game.id)}
+                  >
+                    <i className="bi bi-pencil-square"></i> Edit
+                  </button>
+                  <button type="button" className="btn btn-sm btn-danger mx-1">
+                    <i className="bi bi-x-circle"></i> Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )
+    ) : (
+      <EditGame id={selectedId} dataFeedback={getFeedback} />
+    );
 
-    const contents = games === undefined
-        ? <p><em>Loading... </em></p>
-: <table className="table table-striped" aria-labelledby="tableGames">
-      <thead>
-      <tr>
-          <th>Name</th>
-          <th>Console</th>
-          <th>Manufacturer</th>
-      </tr>
-      </thead>
-      <tbody>
-      {games.map(game =>
-          <tr key={game.id}>
-              <td>{game.name}</td>
-              <td>{game.consoleName}</td>
-              <td>{game.manufacturerName}</td>
-          </tr>
-      )}
-      </tbody>
-  </table>;
-
-return (
+  return (
     <div>
-        <div className="d-flex flex-row gap-3">
-    <h1 id="tableGames">Games list</h1>
-            <div class="btn-group align-self-center" role="group">
-        <button type="button" class="btn btn-light">Add</button>
-            <button type="button" class="btn btn-light">Update</button>
-            <button type="button" class="btn btn-light">Remove</button>
+      <div className="d-flex flex-row gap-3">
+        <h1 id="tableGames">Games list</h1>
+        <button type="button" onClick={()=>setSelectedId('00000000-0000-0000-0000-000000000000')} className="btn btn-success align-self-center">
+          <i className="bi bi-plus-circle"></i> Add
+        </button>
+      </div>
+      {contents}
     </div>
-        </div>
-    {contents}
-</div>
-); 
+  );
   async function populateGamesList() {
-      const response = await fetch('gameslist');
-      const data = await response.json();
-      setGames(data);
+    const response = await fetch("gameslist");
+    const data = await response.json();
+    setGames(data);
   }
 }
 
