@@ -6,11 +6,15 @@ namespace RetroGamingCatalog.Api.DTOs
     {
         public Guid Id { get; set; }
         public required string Name { get; set; }
+        public Guid ManufacturerId { get; set; }
+        public required string ManufacturerName { get; set; }
 
         public static ConsoleDto From(Console c) => new()
         {
             Id=c.Id,
-            Name = c.Name
+            Name = c.Name,
+            ManufacturerId = c.ManufacturerId,
+            ManufacturerName = c.Manufacturer.Name
         };
     }
 }
