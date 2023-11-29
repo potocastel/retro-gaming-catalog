@@ -31,8 +31,15 @@ function GamesList() {
   </table>;
 
 return (
-<div>
+    <div>
+        <div className="d-flex flex-row gap-3">
     <h1 id="tableGames">Games list</h1>
+            <div class="btn-group align-self-center" role="group">
+        <button type="button" class="btn btn-light">Add</button>
+            <button type="button" class="btn btn-light">Update</button>
+            <button type="button" class="btn btn-light">Remove</button>
+    </div>
+        </div>
     {contents}
 </div>
 ); 
