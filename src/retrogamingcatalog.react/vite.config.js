@@ -46,21 +46,23 @@ export default defineConfig({
     },
     server: {
         proxy: {
-            '/consoles': {
+            '/consolelist': {
                 target: 'http://localhost:5025/',
-                rewrite: (path) => path.replace(/^\/consoles/, ''),
+                changeOrigin: true,
+                rewrite: path => path.replace('consolelist', 'consoles'),
                 secure: false
             },
             '/gameslist': {
                 target: 'http://localhost:5025/',
                 changeOrigin: true,
-                rewrite: path => path.replace('gameslist', 'games'),
+                rewrite: path => path.replace(/^\/gameslist/, 'games'),
                                                 secure: false
             },
-            '/manufacturers': {
+            '/manufacturerlist': {
                 target: 'http://localhost:5025/',
-                rewrite: (path) => path.replace(/^\/manufacturers/, ''),
-                                secure: false
+                changeOrigin: true,
+                rewrite: path => path.replace('manufacturerlist', 'manufacturers'),
+                secure: false
             }
         },
         port: 5173,
