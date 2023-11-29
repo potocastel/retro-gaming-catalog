@@ -1,6 +1,6 @@
 ﻿using RetroGamingCatalog.Dao;
 
-namespace RetroGamingCatalog.Api;
+namespace RetroGamingCatalog.Api.DTOs;
 
 public class ManufacturerDto
 {
