@@ -12,7 +12,12 @@ public static class GamesApi
         rgb.MapGet("/", async (CatalogDb db) => await 
             db.Games.Include(g => g.Console.Manufacturer).Select(g => GameDto.From(g)).ToListAsync());
 
-        rgb.MapGet("/{name}", async
+        rgb.MapGet("/{id}", async
+            (CatalogDb db, Guid id) =>
+            Results.Ok(await db.Games.Include(g => g.Console.Manufacturer).Where(g => g.Id == id).Select(g => GameDto.From(g)).FirstOrDefaultAsync()));
+
+
+        rgb.MapGet("/byname/{name}", async
             (CatalogDb db, string name) =>
             Results.Ok(await db.Games.Include(g => g.Console.Manufacturer).Where(g => g.Name.Contains(name, StringComparison.InvariantCultureIgnoreCase)).Select(g => GameDto.From(g)).ToListAsync()));
 
