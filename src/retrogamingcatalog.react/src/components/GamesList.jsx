@@ -4,14 +4,24 @@ import EditGame from "./EditGame.jsx";
 function GamesList() {
   const [games, setGames] = useState();
   const [selectedId, setSelectedId] = useState(null);
+  const [gameSearch, setGameSearch] = useState('');
 
   const getFeedback = () => {
-    selectedId=null;
+    setSelectedId(null);
   }
 
   useEffect(() => {
     populateGamesList();
-  }, []);
+  }, [gameSearch]);
+
+  const handleSearch = (e) => {
+    console.log(e.target.value);
+    console.log(e.target.value!=='');
+    if (e.target.value.length >= 2)
+      setGameSearch(e.target.value);
+    else if (gameSearch !== '')
+      setGameSearch('');
+  };
 
   const contents =
     selectedId === null ? (
@@ -60,15 +70,20 @@ function GamesList() {
     <div>
       <div className="d-flex flex-row gap-3">
         <h1 id="tableGames">Games list</h1>
-        <button type="button" onClick={()=>setSelectedId('00000000-0000-0000-0000-000000000000')} className="btn btn-success align-self-center">
+        <button type="button" onClick={() => setSelectedId('00000000-0000-0000-0000-000000000000')} className="btn btn-success align-self-center">
           <i className="bi bi-plus-circle"></i> Add
         </button>
+        <input type="text" className=" ml-auto align-self-center pull-right" onChange={handleSearch} />
       </div>
       {contents}
     </div>
   );
   async function populateGamesList() {
-    const response = await fetch("gameslist");
+    var url = 'gameslist';
+    if (gameSearch !== '')
+      url += '/byname/' + gameSearch;
+
+    const response = await fetch(url);
     const data = await response.json();
     setGames(data);
   }
