@@ -5,7 +5,6 @@ function EditGame({ id, dataFeedback }) {
   const [consoles, setConsoles] = useState();
 
   useEffect(() => {
-    console.log("Edit game ", id);
     loadManufacturers();
     if (id === "00000000-0000-0000-0000-000000000000") {
       setGame({
@@ -37,7 +36,7 @@ function EditGame({ id, dataFeedback }) {
     ) : (
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
-          <label for="txtGameName" className="form-label">
+          <label htmlFor="txtGameName" className="form-label">
             Name
           </label>
           <input
@@ -50,7 +49,7 @@ function EditGame({ id, dataFeedback }) {
           />
         </div>
         <div className="mb-3">
-          <label for="txtGameDescription" className="form-label">
+          <label htmlFor="txtGameDescription" className="form-label">
             Description
           </label>
           <textarea
@@ -64,7 +63,7 @@ function EditGame({ id, dataFeedback }) {
           ></textarea>
         </div>
         <div className="mb-3">
-          <label for="cmbConsole" className="form-label">
+          <label htmlFor="cmbConsole" className="form-label">
             Console
           </label>
           <select id="cmbConsole" className="form-select" onChange={handleChange}>

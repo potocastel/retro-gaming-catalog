@@ -32,10 +32,10 @@ function ManufacturerList() {
               <td>&nbsp;</td>
               <td>&nbsp;</td>
               <td> 
-                  <button type="button" class="btn btn-sm btn-primary mx-1">
+                  <button type="button" className="btn btn-sm btn-primary mx-1">
                     <i className="bi bi-pencil-square"></i> Edit
                   </button>
-                  <button type="button" class="btn btn-sm btn-danger mx-1">
+                  <button type="button" className="btn btn-sm btn-danger mx-1">
                   <i className="bi bi-x-circle"></i> Delete
                   </button> 
               </td>
@@ -49,7 +49,7 @@ function ManufacturerList() {
     <div>
       <div className="d-flex flex-row gap-3">
         <h1 id="tableManufacturers">Manufacturer list</h1> 
-          <button type="button" class="btn btn-success align-self-center">
+          <button type="button" className="btn btn-success align-self-center">
             <i className="bi bi-plus-circle"></i> Add
           </button>  
       </div>

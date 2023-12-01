@@ -2,8 +2,8 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from './pages/Layout.jsx'
 import Home from './components/Home.jsx'
-import GamesList from './components/GamesList.jsx'
-import ManufacturerList from './components/ManufacturerList.jsx'
+import GamesManagement from './components/games/GamesManagement.jsx'
+import ManufacturerList from './components/manufacturers/ManufacturerList.jsx'
 import './App.css';
 
 function App() {
@@ -14,7 +14,7 @@ function App() {
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<Layout />}>
-                    <Route path="games" element={<GamesList />} />
+                    <Route path="games" element={<GamesManagement />} />
                     <Route path="manufacturers" element={<ManufacturerList />} />
                 </Route>
             </Routes>
