@@ -15,12 +15,14 @@ builder.Services.AddTransient<SampleDataInitialization>();
 builder.Services.AddQueries();
 builder.Services.AddCors(cors => 
     cors.AddDefaultPolicy(pb=>pb.AllowAnyOrigin()));
+builder.Services.AddControllers();
 
 var app = builder.Build();
 
 await using (var scope = app.Services.CreateAsyncScope())
     await scope.ServiceProvider.GetRequiredService<SampleDataInitialization>().Initialize();
-
+app.UseRouting();
+app.MapControllers();
 app.BuildGamesApi();
 app.BuildConsolesApi();
 app.BuildManufacturers();

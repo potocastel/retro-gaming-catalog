@@ -8,9 +8,9 @@ namespace RetroGamingCatalog.Api.DTOs
         public required string Name { get; set; }
         public required string Description { get; set; }
         public Guid ConsoleId { get; set; }
-        public required string ConsoleName { get; set; }
-        public Guid ManufacturerId { get; set; }
-        public required string ManufacturerName { get; set; }
+        public string? ConsoleName { get; set; }
+        public Guid? ManufacturerId { get; set; }
+        public string? ManufacturerName { get; set; }
 
         public static GameDto From(Game g) => new()
         {

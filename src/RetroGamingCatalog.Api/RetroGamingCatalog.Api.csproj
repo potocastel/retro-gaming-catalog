@@ -17,4 +17,8 @@
     <ProjectReference Include="..\RetroGamingCatalog.Dao\RetroGamingCatalog.Dao.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Controllers/" />
+  </ItemGroup>
+
 </Project>
