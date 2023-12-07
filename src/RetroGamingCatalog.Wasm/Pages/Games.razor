@@ -1,0 +1,53 @@
+﻿@page "/games"
+@inject HttpClient HttpClient
+
+<PageTitle>Games</PageTitle>
+
+<h1>Games</h1>
+ 
+
+@if (_games == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Console</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var game in _games)
+            {
+                <tr>
+                    <td>@game.Name</td>
+                    <td>@game.Description</td>
+                    <td>@game.ConsoleName</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+@code {
+    public class GameDto
+    {
+        public Guid Id { get; set; }
+        public required string Name { get; set; }
+        public required string Description { get; set; }
+        public Guid ConsoleId { get; set; }
+        public required string ConsoleName { get; set; }
+        public Guid ManufacturerId { get; set; }
+        public required string ManufacturerName { get; set; }
+        }    
+
+        private GameDto[]? _games;
+        
+        protected override async Task OnInitializedAsync()
+        {
+            _games=await HttpClient.GetFromJsonAsync<GameDto[]>("http://localhost:5025/games");
+        }
+}
