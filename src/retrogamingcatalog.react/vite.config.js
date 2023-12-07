@@ -53,7 +53,7 @@ export default defineConfig({
                 secure: false
             },
             '/gameslist': {
-                target: 'http://localhost:5025/',
+                target: 'http://localhost:5025/api/',
                 changeOrigin: true,
                 rewrite: path => path.replace(/^\/gameslist/, 'games'),
                                                 secure: false
