@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from "react";
 
 function EditGame({ id, dataFeedback }) {
-  const [game, setGame] = useState();
+  const [game, setGame] = useState({
+    id: "00000000-0000-0000-0000-000000000000",
+    name: "",
+    description: "",  
+    consoleId: null, 
+  });
   const [consoles, setConsoles] = useState();
 
   useEffect(() => {
@@ -10,6 +15,8 @@ function EditGame({ id, dataFeedback }) {
       setGame({
         id: "00000000-0000-0000-0000-000000000000",
         name: "",
+        description: "",  
+        consoleId: null, 
       });
     } else {
       getGameData();
@@ -18,13 +25,38 @@ function EditGame({ id, dataFeedback }) {
   }, [id]);
 
   const handleChange = (e) => {
-    setGame({
-      ...game,
-      [e.target.name]: e.target.value,
-    });
+    const { name, value } = e.target;
+    console.log(`handleChange - name: ${name}, value: ${value}`);
+  
+    setGame((prevGame) => ({
+      ...prevGame,
+      [name]: value,
+    }));
   };
+  const handleSubmit = async (e) => {
 
-  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    try {
+      // Envoyer les données du formulaire à votre API
+      const post = id === "00000000-0000-0000-0000-000000000000";
+      const response = await fetch("gameslist"+(post?"":"/"+id), {
+        method:(post? "POST":"PUT"), // ou "PUT" pour une mise à jour
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(game),
+      });
+  
+      if (response.ok) {
+        // Gérer la réussite de la requête, peut-être rediriger ou effectuer d'autres actions
+        console.log("Formulaire soumis avec succès !");
+      } else {
+        console.error("Erreur lors de la soumission du formulaire.");
+      }
+    } catch (error) {
+      console.error("Une erreur s'est produite :", error);
+    }    
     dataFeedback();
   };
 
@@ -44,6 +76,7 @@ function EditGame({ id, dataFeedback }) {
             className="form-control"
             id="txtGameName"
             value={game.name}
+            name="name"
             onChange={handleChange}
             placeholder="Enter game name"
           />
@@ -57,6 +90,7 @@ function EditGame({ id, dataFeedback }) {
             className="form-control"
             id="txtGameDescription"
             value={game.description}
+            name="description"
             onChange={handleChange}
             placeholder="Enter game description"
             rows="3"
@@ -66,11 +100,11 @@ function EditGame({ id, dataFeedback }) {
           <label htmlFor="cmbConsole" className="form-label">
             Console
           </label>
-          <select id="cmbConsole" className="form-select" onChange={handleChange}>
-            <option disabled>Select a console</option>
+          <select id="cmbConsole" className="form-select" onChange={handleChange} name="consoleId" value={game.consoleId || ""}>
+            <option>Select a console</option>
             {
                 consoles.map((console)=>(
-                    <option {...id === game.consoleId? "selected":""} key={console.id} value={console.id}>{console.name}</option>
+                    <option key={console.id} value={console.id}>{console.name}</option>
 
                 ))
             }
