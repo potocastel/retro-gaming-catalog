@@ -19,6 +19,7 @@ public class ManufacturersController : ControllerBase
 
     [HttpGet]
     public async Task<ActionResult<IEnumerable<ManufacturerDto>>> GetManufacturers()
+    {
         return await _db.Manufacturers.Select(m => ManufacturerDto.From(m)).ToListAsync();
     }
 
