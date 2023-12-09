@@ -59,7 +59,7 @@ export default defineConfig({
                                                 secure: false
             },
             '/manufacturerlist': {
-                target: 'http://localhost:5025/',
+                target: 'http://localhost:5025/api/',
                 changeOrigin: true,
                 rewrite: path => path.replace('manufacturerlist', 'manufacturers'),
                 secure: false

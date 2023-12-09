@@ -21,6 +21,7 @@ function ManufacturerList() {
           <tr>
             <th>Name</th>
             <th>Description</th>
+            <th>Year</th>
             <th>Still active?</th>
             <th>#</th>
           </tr>
@@ -29,6 +30,7 @@ function ManufacturerList() {
           {manufacturers.map((manufacturer) => (
             <tr key={manufacturer.id}>
               <td>{manufacturer.name}</td>
+              <td>&nbsp;</td>
               <td>&nbsp;</td>
               <td>&nbsp;</td>
               <td> 
