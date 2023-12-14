@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.EntityFrameworkCore;
@@ -37,7 +38,9 @@ public class GamesController : ControllerBase
     public async Task<ActionResult<Guid>> CreateGame(GameDto game)
     {
 
-        var console = await _db.Consoles.FirstOrDefaultAsync(g => g.Name == game.ConsoleName) ?? (await _db.Consoles.FirstOrDefaultAsync() ?? throw new NullReferenceException());
+        var console = await _db.Consoles.FindAsync(game.ConsoleId);
+        if (console == null)
+            return BadRequest();
         var gameDao = new Game()
         {
             Id = Guid.NewGuid(),
@@ -51,19 +54,22 @@ public class GamesController : ControllerBase
 
         return gameDao.Id;
     }
-   [HttpPut("{id}")]
-    public async Task<ActionResult> UpdateGame(Guid id,GameDto game)
+    [HttpPut("{id}")]
+    public async Task<ActionResult> UpdateGame(Guid id, GameDto game)
     {
+        var gameDao = await _db.Games.FindAsync(id);
+        if (gameDao == null)
+            return NotFound();
 
-        var console = await _db.Consoles.FirstOrDefaultAsync(g => g.Name == game.ConsoleName) ?? (await _db.Consoles.FirstOrDefaultAsync() ?? throw new NullReferenceException());
-        var gameDao = await _db.Games.FirstOrDefaultAsync(g=>g.Id==id);
-        if(gameDao==null)
-        return NotFound();
-     
+        if (gameDao.ConsoleId != game.ConsoleId)
+        {
+            var console = await _db.Consoles.FindAsync(game.ConsoleId);
             gameDao.Console = console;
-            gameDao.Description = game.Description;
-            gameDao.Name = game.Name;
             gameDao.ConsoleId = console.Id;
+        }
+
+        gameDao.Description = game.Description;
+        gameDao.Name = game.Name;
 
         await _db.SaveChangesAsync();
 
@@ -73,7 +79,7 @@ public class GamesController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<ActionResult> DeleteGame(Guid id)
     {
-        var game = await _db.Games.FirstOrDefaultAsync(g => g.Id == id);
+        var game = await _db.Games.FindAsync(id);
         if (game == null)
             return NotFound();
         _db.Games.Remove(game);
