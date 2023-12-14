@@ -52,9 +52,9 @@ public class ManufacturersController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<ActionResult> UpdateManufacturer(ManufacturerDto manufacturer)
+    public async Task<ActionResult> UpdateManufacturer(Guid id, ManufacturerDto manufacturer)
     {
-        var manufacturerDao = await _db.Manufacturers.FirstOrDefaultAsync(m => m.Id == manufacturer.Id);
+        var manufacturerDao = await _db.Manufacturers.FirstOrDefaultAsync(m => m.Id == id);
         if (manufacturerDao == null)
             return NotFound();
         manufacturerDao.Name = manufacturer.Name;
@@ -63,9 +63,9 @@ public class ManufacturersController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    public async Task<ActionResult> DeleteManufacturer(ManufacturerDto manufacturer)
+    public async Task<ActionResult> DeleteManufacturer(Guid id)
     {
-        var manufacturerDao = await _db.Manufacturers.FirstOrDefaultAsync(m => m.Id == manufacturer.Id);
+        var manufacturerDao = await _db.Manufacturers.FirstOrDefaultAsync(m => m.Id == id);
         if (manufacturerDao == null)
             return NotFound();
         _db.Manufacturers.Remove(manufacturerDao);
