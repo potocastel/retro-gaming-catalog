@@ -3,18 +3,12 @@ import EditGame from "./EditGame.jsx";
 
 function GamesList(props) {
   const [games, setGames] = useState();
-  const [selectedId, setSelectedId] = useState(null);
-
-  const getFeedback = () => {
-    setSelectedId(null);
-  }
 
   useEffect(() => {
     populateGamesList(props.search); 
   }, [props.search]);
 
   const idSelected = (id) => {
-    setSelectedId(id);
     props.idChanged(id);
   };
  

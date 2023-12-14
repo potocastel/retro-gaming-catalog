@@ -9,15 +9,8 @@ function GamesManagement() {
   const getFeedback = () => {
     setSelectedId(null);
   }
-
-  const gameIdSelected = (id) => {
-    setSelectedId(id);
-  };
-
-
-
-  useEffect(() => {
-    //populateGamesList();
+ 
+  useEffect(() => { 
   }, [gameSearch,selectedId]);
 
   const handleSearch = (e) => {
@@ -26,7 +19,6 @@ function GamesManagement() {
     else if (gameSearch !== '')
       setGameSearch('');
   };
-  
 
   return (
     <div>
@@ -38,7 +30,7 @@ function GamesManagement() {
         <input type="text" className=" ml-auto align-self-center pull-right" onChange={handleSearch} />
       </div>
       {selectedId === null ? (
-      <GamesList idChanged={gameIdSelected} search={gameSearch}/>      
+      <GamesList idChanged={setSelectedId} search={gameSearch}/>      
     ) : (
       <EditGame id={selectedId} dataFeedback={getFeedback} />
     )}

@@ -1,13 +1,19 @@
 import React, { useEffect, useState } from "react";
 
-function ManufacturerList() {
+function ManufacturerList(props) {
   const [manufacturers, setManufacturers] = useState();
+  const [selectedId, setSelectedId] = useState(null);
 
   useEffect(() => {
     fill();
   }, []);
 
-  const contents =
+  const idSelected = (id) => {
+    setSelectedId(id);
+    props.idChanged(id);
+  };
+
+  return (
     manufacturers === undefined ? (
       <p>
         <em>Loading... </em>
@@ -33,30 +39,19 @@ function ManufacturerList() {
               <td>&nbsp;</td>
               <td>&nbsp;</td>
               <td>&nbsp;</td>
-              <td> 
-                  <button type="button" className="btn btn-sm btn-primary mx-1">
-                    <i className="bi bi-pencil-square"></i> Edit
-                  </button>
-                  <button type="button" className="btn btn-sm btn-danger mx-1">
+              <td>
+                <button onClick={()=>idSelected(manufacturer.id)} type="button" className="btn btn-sm btn-primary mx-1">
+                  <i className="bi bi-pencil-square"></i> Edit
+                </button>
+                <button type="button" className="btn btn-sm btn-danger mx-1">
                   <i className="bi bi-x-circle"></i> Delete
-                  </button> 
+                </button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-    );
-
-  return (
-    <div>
-      <div className="d-flex flex-row gap-3">
-        <h1 id="tableManufacturers">Manufacturer list</h1> 
-          <button type="button" className="btn btn-success align-self-center">
-            <i className="bi bi-plus-circle"></i> Add
-          </button>  
-      </div>
-      {contents}
-    </div>
+    )
   );
   async function fill() {
     const response = await fetch("manufacturerlist");

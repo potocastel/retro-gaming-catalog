@@ -9,15 +9,14 @@ function EditManufacturer({ id, dataFeedback }) {
   useEffect(() => {
     if (id !== "00000000-0000-0000-0000-000000000000") {
       getManufacturerData();
-    }
-    
+    }    
   }, [id]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
   
-    setManufacturer((prevGame) => ({
-      ...prevGame,
+    setManufacturer((prevManufacturer) => ({
+      ...prevManufacturer,
       [name]: value,
     }));
   };
@@ -32,7 +31,7 @@ function EditManufacturer({ id, dataFeedback }) {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(game),
+        body: JSON.stringify(manufacturer),
       });
   
       if (response.ok) {
@@ -93,8 +92,8 @@ function EditManufacturer({ id, dataFeedback }) {
     if (id === null) return;
     const response = await fetch("manufacturerlist/" + id);
     const data = await response.json();
-    EditManufacturer(data);
+    setManufacturer(data);
   }
 }
 
-export default EditGame;
+export default EditManufacturer;
