@@ -49,7 +49,7 @@ export default defineConfig({
             '/consolelist': {
                 target: 'http://localhost:5025/',
                 changeOrigin: true,
-                rewrite: path => path.replace('consolelist', 'consoles'),
+                rewrite: path => path.replace(/^\/consolelist/, 'consoles'),
                 secure: false
             },
             '/gameslist': {
@@ -61,7 +61,7 @@ export default defineConfig({
             '/manufacturerlist': {
                 target: 'http://localhost:5025/api/',
                 changeOrigin: true,
-                rewrite: path => path.replace('manufacturerlist', 'manufacturers'),
+                rewrite: path => path.replace(/^\/manufacturerlist/, 'manufacturers'),
                 secure: false
             }
         },
