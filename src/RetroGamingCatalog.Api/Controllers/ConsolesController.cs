@@ -19,13 +19,17 @@ public class ConsolesController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<ConsoleDto>>> GetConsoles()
     {
-        return await _db.Consoles.Select(m => ConsoleDto.From(m)).ToListAsync();
+        return await _db.Consoles
+            .Include(c => c.Manufacturer)
+            .Select(m => ConsoleDto.From(m)).ToListAsync();
     }
 
     [HttpGet("{id}")]
     public async Task<ActionResult<ConsoleDto>> GetById(Guid id)
     {
-        var console = await _db.Consoles.FindAsync(id);
+        var console = await _db.Consoles
+            .Include(c => c.Manufacturer)
+            .FirstOrDefaultAsync(c => c.Id == id);
         if (console == null)
             return NotFound();
         return ConsoleDto.From(console);
@@ -38,7 +42,7 @@ public class ConsolesController : ControllerBase
             return Conflict();
 
         var manufacturerDao = await _db.Manufacturers.FindAsync(console.ManufacturerId);
-        if (manufacturerDao is null)
+        if (manufacturerDao ==null)
             return BadRequest();
 
         var newConsole = new Dao.Console()

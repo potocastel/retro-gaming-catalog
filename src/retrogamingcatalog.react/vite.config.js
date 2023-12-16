@@ -47,7 +47,7 @@ export default defineConfig({
     server: {
         proxy: {
             '/consolelist': {
-                target: 'http://localhost:5025/',
+                target: 'http://localhost:5025/api/',
                 changeOrigin: true,
                 rewrite: path => path.replace(/^\/consolelist/, 'consoles'),
                 secure: false

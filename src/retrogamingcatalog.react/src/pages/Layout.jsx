@@ -15,6 +15,9 @@ const Layout = () => {
                             <NavLink className="nav-link text-white" to="/games"><i className="bi bi-controller"></i> Games</NavLink>
                         </li>
                         <li className="nav-item ">
+                            <NavLink className="nav-link text-white" to="/consoles"><i className="bi bi-controller"></i> Consoles</NavLink>
+                        </li>
+                        <li className="nav-item ">
                             <NavLink className="nav-link text-white" to="/manufacturers"><i className="bi bi-wrench"></i> Manufacturers</NavLink>
                         </li>
                     </ul>
