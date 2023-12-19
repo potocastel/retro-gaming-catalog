@@ -4,6 +4,7 @@ import Layout from './pages/Layout.jsx'
 import GamesManagement from './components/games/GamesManagement.jsx'
 import ManufacturerManagement from './components/manufacturers/ManufacturerManagement.jsx'
 import ConsoleManagement from "./components/consoles/ConsoleManagement.jsx";
+import Login from "./components/login/Login.jsx";
 import './App.css';
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
                     <Route path="games" element={<GamesManagement />} />
                     <Route path="consoles" element={<ConsoleManagement />} />
                     <Route path="manufacturers" element={<ManufacturerManagement />} />
+                    <Route path="login" element={<Login />} />
                 </Route>
             </Routes>
         </BrowserRouter>

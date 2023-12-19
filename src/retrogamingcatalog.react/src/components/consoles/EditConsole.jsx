@@ -39,15 +39,14 @@ function EditConsole({ id, dataFeedback }) {
       });
   
       if (response.ok) {
-        // Gérer la réussite de la requête, peut-être rediriger ou effectuer d'autres actions
-        console.log("Formulaire soumis avec succès !");
+        dataFeedback();
       } else {
         console.error("Erreur lors de la soumission du formulaire.");
       }
     } catch (error) {
       console.error("Une erreur s'est produite :", error);
     }    
-    dataFeedback();
+    
   };
 
   const contents =
