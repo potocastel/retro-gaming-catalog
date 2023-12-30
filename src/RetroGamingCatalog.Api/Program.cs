@@ -1,4 +1,11 @@
+using System.Text;
 using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
+using RetroGamingCatalog.Api;
 using RetroGamingCatalog.Api.Endpoints;
 using RetroGamingCatalog.Api.Queries;
 using RetroGamingCatalog.Dao;
@@ -9,18 +16,24 @@ builder.Services.ConfigureHttpJsonOptions(options =>
 {
     options.SerializerOptions.TypeInfoResolverChain.Insert(0, AppJsonSerializerContext.Default);
 });
+builder.AddJwtTokenAuthentication();
 
-builder.Services.AddDbContext<CatalogDb>();//opt => opt.UseInMemoryDatabase("catalog", x => { }));
+builder.Services.AddDbContext<CatalogDb>(
+opt => 
+opt.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
+//opt.UseInMemoryDatabase("catalog", x => { })
+);
+
 builder.Services.AddTransient<SampleDataInitialization>();
 builder.Services.AddQueries();
-builder.Services.AddCors(cors => 
-    cors.AddDefaultPolicy(pb=>pb.AllowAnyOrigin()));
+builder.Services.AddCors(cors =>
+    cors.AddDefaultPolicy(pb => pb.AllowAnyOrigin()));
 builder.Services.AddControllers();
 
 var app = builder.Build();
 
-await using (var scope = app.Services.CreateAsyncScope())
-    await scope.ServiceProvider.GetRequiredService<SampleDataInitialization>().Initialize();
+    app.UseAuthentication();
+    app.UseAuthorization();
 app.UseRouting();
 app.MapControllers();
 app.BuildGamesApi();
