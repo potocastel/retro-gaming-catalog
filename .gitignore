@@ -396,4 +396,4 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
-src/RetroGamingCatalog.Api/appsettings.Development.json
+*.Development.json
