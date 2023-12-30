@@ -16,9 +16,12 @@ function ConsoleManagement() {
     <div>
       <div className="d-flex flex-row gap-3">
         <h1 id="tableConsole">Console list</h1> 
-        <button type="button" onClick={() => setSelectedId('00000000-0000-0000-0000-000000000000')} className="btn btn-success align-self-center">
-          <i className="bi bi-plus-circle"></i> Add
-        </button>
+        {
+          selectedId===null? (
+            <button type="button" accessKey="a" onClick={() => setSelectedId('00000000-0000-0000-0000-000000000000')} className="btn btn-success align-self-center">
+            <i className="bi bi-plus-circle"></i> Add
+          </button>): (<></>)
+        }
       </div>
       {
         selectedId===null ? (

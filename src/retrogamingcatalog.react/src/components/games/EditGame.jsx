@@ -8,6 +8,7 @@ function EditGame({ id, dataFeedback }) {
     consoleId: null, 
   });
   const [consoles, setConsoles] = useState();
+  const [errorMessage,setErrorMessage]=useState('');
 
   useEffect(() => {
     loadManufacturers();
@@ -22,7 +23,7 @@ function EditGame({ id, dataFeedback }) {
       getGameData();
     }
     
-  }, [id]);
+  }, [id,errorMessage]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
