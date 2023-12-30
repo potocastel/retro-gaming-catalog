@@ -21,6 +21,8 @@ public class ConsolesController : ControllerBase
     {
         return await _db.Consoles
             .Include(c => c.Manufacturer)
+            .OrderBy(c => c.Manufacturer.Name)
+            .ThenBy(c => c.Name)
             .Select(m => ConsoleDto.From(m)).ToListAsync();
     }
 
@@ -38,11 +40,12 @@ public class ConsolesController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<Guid>> CreateConsole(ConsoleDto console)
     {
-        if (await _db.Consoles.AnyAsync(m => m.Name.Contains(console.Name, StringComparison.InvariantCultureIgnoreCase)))
+        var consoles = await _db.Consoles.ToListAsync();
+        if (consoles.Any(m => m.Name.Contains(console.Name, StringComparison.InvariantCultureIgnoreCase)))
             return Conflict();
 
         var manufacturerDao = await _db.Manufacturers.FindAsync(console.ManufacturerId);
-        if (manufacturerDao ==null)
+        if (manufacturerDao == null)
             return BadRequest();
 
         var newConsole = new Dao.Console()

@@ -20,19 +20,25 @@ public class GamesController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<GameDto>>> GetGames()
     {
-        return await _db.Games.Include(g => g.Console.Manufacturer).Select(g => GameDto.From(g)).ToListAsync();
+        return await GamesQuery().Select(g => GameDto.From(g)).ToListAsync();
     }
     [HttpGet("{id}")]
     public async Task<ActionResult<GameDto>> GetGameById(Guid id)
     {
-        return await _db.Games.Include(g => g.Console.Manufacturer).Where(g => g.Id == id).Select(g => GameDto.From(g)).FirstOrDefaultAsync();
+        return await GamesQuery().Where(g => g.Id == id).Select(g => GameDto.From(g)).FirstOrDefaultAsync();
     }
 
     [HttpGet("byname/{name}")]
     public async Task<ActionResult<IEnumerable<GameDto>>> GetGameByName(string name)
     {
-        return await _db.Games.Include(g => g.Console.Manufacturer).Where(g => g.Name.Contains(name, StringComparison.InvariantCultureIgnoreCase)).Select(g => GameDto.From(g)).ToListAsync();
+        return await GamesQuery().Where(g => g.Name.ToLower().Contains(name.ToLower())).Select(g => GameDto.From(g)).ToListAsync();
     }
+
+    private IQueryable<Game> GamesQuery() =>
+    _db.Games.Include(g => g.Console.Manufacturer)
+    .OrderBy(g => g.Console.Manufacturer.Name)
+    .ThenBy(g => g.Console.Name)
+    .ThenBy(g => g.Name);
 
     [HttpPost]
     public async Task<ActionResult<Guid>> CreateGame(GameDto game)
@@ -41,6 +47,10 @@ public class GamesController : ControllerBase
         var console = await _db.Consoles.FindAsync(game.ConsoleId);
         if (console == null)
             return BadRequest();
+
+        if (await _db.Games.AnyAsync(g => g.Name.ToLower() == game.Name.ToLower()))
+            return Conflict("Game already exist");
+
         var gameDao = new Game()
         {
             Id = Guid.NewGuid(),

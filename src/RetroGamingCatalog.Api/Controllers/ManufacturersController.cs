@@ -20,7 +20,7 @@ public class ManufacturersController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<ManufacturerDto>>> GetManufacturers()
     {
-        return await _db.Manufacturers.Select(m => ManufacturerDto.From(m)).ToListAsync();
+        return await _db.Manufacturers.OrderBy(m=>m.Name).Select(m => ManufacturerDto.From(m)).ToListAsync();
     }
 
     [HttpGet("{id}")]
@@ -38,7 +38,8 @@ public class ManufacturersController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<Guid>> NewManufacturer(ManufacturerDto manufacturer)
     {
-        if (await _db.Manufacturers.AnyAsync(m => m.Name.Contains(manufacturer.Name, StringComparison.InvariantCultureIgnoreCase)))
+        var manufacturers=await _db.Manufacturers.ToListAsync();
+        if (manufacturers.Any(m => m.Name.Contains(manufacturer.Name, StringComparison.InvariantCultureIgnoreCase)))
             return Conflict();
         var newManufacturer = new Manufacturer
         {
