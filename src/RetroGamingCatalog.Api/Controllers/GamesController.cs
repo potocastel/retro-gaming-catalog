@@ -25,7 +25,13 @@ public class GamesController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<GameDto>> GetGameById(Guid id)
     {
-        return await GamesQuery().Where(g => g.Id == id).Select(g => GameDto.From(g)).FirstOrDefaultAsync();
+        var game = await GamesQuery()
+        .Where(g => g.Id == id)
+        .Select(g => GameDto.From(g))
+        .FirstOrDefaultAsync();
+        if (game == null)
+            return NotFound();
+        return game;
     }
 
     [HttpGet("byname/{name}")]
@@ -74,6 +80,8 @@ public class GamesController : ControllerBase
         if (gameDao.ConsoleId != game.ConsoleId)
         {
             var console = await _db.Consoles.FindAsync(game.ConsoleId);
+            if (console == null)
+                return BadRequest();
             gameDao.Console = console;
             gameDao.ConsoleId = console.Id;
         }
