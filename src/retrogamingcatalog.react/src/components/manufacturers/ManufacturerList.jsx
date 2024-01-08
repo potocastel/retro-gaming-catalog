@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import api from '../api/api.js';
+
 
 function ManufacturerList(props) {
   const [manufacturers, setManufacturers] = useState();
@@ -54,7 +56,7 @@ function ManufacturerList(props) {
     )
   );
   async function fill() {
-    const response = await fetch("manufacturerlist");
+    const response = await api.get("manufacturerlist");
     const data = await response.json();
     setManufacturers(data);
   }

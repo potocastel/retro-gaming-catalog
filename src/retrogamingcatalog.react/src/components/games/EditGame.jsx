@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import api from "../api/api.js";
 
 function EditGame({ id, dataFeedback }) {
   const [game, setGame] = useState({
@@ -41,20 +42,9 @@ function EditGame({ id, dataFeedback }) {
     try {
       // Envoyer les données du formulaire à votre API
       const post = id === "00000000-0000-0000-0000-000000000000";
-      const response = await fetch("gameslist"+(post?"":"/"+id), {
-        method:(post? "POST":"PUT"), // ou "PUT" pour une mise à jour
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(game),
-      });
+      const url = "gameslist"+(post?"":"/"+id);
+      const response = await (post?api.post(url,game):api.put(url,game));
   
-      if (response.ok) {
-        // Gérer la réussite de la requête, peut-être rediriger ou effectuer d'autres actions
-        console.log("Formulaire soumis avec succès !");
-      } else {
-        console.error("Erreur lors de la soumission du formulaire.");
-      }
     } catch (error) {
       console.error("Une erreur s'est produite :", error);
     }    
@@ -134,13 +124,13 @@ function EditGame({ id, dataFeedback }) {
 
   async function getGameData() {
     if (id === null) return;
-    const response = await fetch("gameslist/" + id);
+    const response = await api.get("gameslist/" + id);
     const data = await response.json();
     setGame(data);
   }
 
   async function loadManufacturers() {
-    const response = await fetch("consolelist");
+    const response = await api.get("consolelist");
     const data = await response.json();
     setConsoles(data);
   }

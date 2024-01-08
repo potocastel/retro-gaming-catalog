@@ -58,6 +58,11 @@ export default defineConfig({
                 rewrite: path => path.replace(/^\/gameslist/, 'games'),
                                                 secure: false
             },
+            '/account': {
+                target: 'http://localhost:5025/api/',
+                changeOrigin: true,
+                                                secure: false
+            },
             '/manufacturerlist': {
                 target: 'http://localhost:5025/api/',
                 changeOrigin: true,

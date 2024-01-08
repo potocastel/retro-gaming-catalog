@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import EditGame from "./EditGame.jsx";
+import api from '../api/api.js'
+
 
 function GamesList(props) {
   const [games, setGames] = useState();
@@ -55,7 +56,7 @@ function GamesList(props) {
     if (gameSearch != '')
       url += '/byname/' + gameSearch;
 
-    const response = await fetch(url);
+    const response = await api.get(url);
     const data = await response.json();
     setGames(data);
   }

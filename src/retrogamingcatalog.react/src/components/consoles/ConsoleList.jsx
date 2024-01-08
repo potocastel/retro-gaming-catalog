@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
+import api from "../api/api.js";
 
 function ConsoleList(props) {
-  const [consoles, setConsoles] = useState();
-  const [selectedId, setSelectedId] = useState(null);
+const [consoles, setConsoles] = useState();
+const [selectedId, setSelectedId] = useState(null);
 
   useEffect(() => {
     fill();
@@ -56,7 +57,7 @@ function ConsoleList(props) {
     )
   );
   async function fill() {
-    const response = await fetch("consolelist");
+    const response = await api.get("consolelist");
     const data = await response.json();
     setConsoles(data);
   }

@@ -34,9 +34,12 @@ public class AccountController : ControllerBase
             if (user == null)
                 return NotFound();
 
-            if (user.PasswordHash == model.Password)
+            var passwordHasher = new PasswordHasher<User>();
+            var passwordVerificationResult = passwordHasher.VerifyHashedPassword(user, user.PasswordHash, model.Password);
+
+            if (passwordVerificationResult == PasswordVerificationResult.Success)
             {
-                user.LastConnectionDate = DateTime.Now;
+                user.LastConnectionDate = DateTime.UtcNow;
                 await _db.SaveChangesAsync();
                 var token = GenerateJwtToken(user);
 

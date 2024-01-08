@@ -8,7 +8,8 @@ namespace RetroGamingCatalog.Dao
     public class CatalogDb : DbContext
 
     {
-        public CatalogDb():base(){}
+        public CatalogDb() : base() { }
+        public CatalogDb(DbContextOptions<CatalogDb> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -26,7 +27,7 @@ namespace RetroGamingCatalog.Dao
             modelBuilder.Entity<User>();
 
         }
-        public DbSet<User> Users {get;set;}
+        public DbSet<User> Users { get; set; }
 
         public DbSet<Game> Games { get; set; }
         public DbSet<Console> Consoles { get; set; }

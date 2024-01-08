@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import api from "../api/api.js";
 
 function EditConsole({ id, dataFeedback }) {
   const [console, setConsole] = useState({
@@ -30,13 +31,9 @@ function EditConsole({ id, dataFeedback }) {
 
     try { 
       const post = id === "00000000-0000-0000-0000-000000000000";
-      const response = await fetch("consolelist"+(post?"":"/"+id), {
-        method:(post? "POST":"PUT"), // ou "PUT" pour une mise à jour
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(console),
-      });
+      const url = "consolelist"+(post?"":"/"+id);
+      const response = await 
+      (post? api.post(url,console):api.put(url,console));
   
       if (response.ok) {
         dataFeedback();
@@ -106,13 +103,13 @@ function EditConsole({ id, dataFeedback }) {
 
   async function getConsoleData() {
     
-    const response = await fetch("consolelist/" + id);
+    const response = await api.get("consolelist/" + id);
     const data = await response.json();
     setConsole(data);
   }
 
   async function loadManufacturers() {
-    const response = await fetch("manufacturerlist");
+    const response = await api.get("manufacturerlist");
     const data = await response.json();
     setManufacturers(data);
   }

@@ -1,10 +1,5 @@
-using System.Text;
 using System.Text.Json.Serialization;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
 using RetroGamingCatalog.Api;
 using RetroGamingCatalog.Api.Endpoints;
 using RetroGamingCatalog.Api.Queries;
@@ -19,28 +14,45 @@ builder.Services.ConfigureHttpJsonOptions(options =>
 builder.AddJwtTokenAuthentication();
 
 builder.Services.AddDbContext<CatalogDb>(
-opt => 
-opt.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
-//opt.UseInMemoryDatabase("catalog", x => { })
-);
+    opt => opt.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddTransient<SampleDataInitialization>();
 builder.Services.AddQueries();
-builder.Services.AddCors(cors =>
-    cors.AddDefaultPolicy(pb => pb.AllowAnyOrigin()));
+builder.Services.AddCors(cors => cors.AddDefaultPolicy(pb => pb.AllowAnyOrigin()));
 builder.Services.AddControllers();
 
 var app = builder.Build();
 
-    app.UseAuthentication();
-    app.UseAuthorization();
+app.UseAuthentication();
 app.UseRouting();
+app.UseAuthorization();
 app.MapControllers();
-app.BuildGamesApi();
+/*app.BuildGamesApi();
 app.BuildConsolesApi();
 app.BuildManufacturers();
 
 app.UseCors(cpb => cpb.AllowAnyOrigin());
+
+/*await using (var scope = app.Services.CreateAsyncScope())
+{
+    var user = new User
+    {
+        Id = Guid.NewGuid(),
+        Email = "nicolas.castellano@test.com",
+        RegistrationDate = DateTime.UtcNow,
+        Username = "potocastel",
+        UserType = User.UserTypeEnum.Admin,
+        PasswordHash = string.Empty,
+    };
+
+
+    var passwordHasher = new PasswordHasher<User>();
+    user.PasswordHash = passwordHasher.HashPassword(user, "Test123!");
+
+    var db = scope.ServiceProvider.GetRequiredService<CatalogDb>();
+    await db.AddAsync(user);
+    await db.SaveChangesAsync();
+}*/
 
 app.Run();
 

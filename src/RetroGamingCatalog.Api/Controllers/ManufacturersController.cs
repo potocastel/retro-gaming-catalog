@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RetroGamingCatalog.Api.DTOs;
@@ -8,6 +9,7 @@ namespace RetroGamingCatalog.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public class ManufacturersController : ControllerBase
 {
     private CatalogDb _db;

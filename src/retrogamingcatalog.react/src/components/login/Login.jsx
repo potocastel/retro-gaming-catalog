@@ -1,41 +1,31 @@
 import React, { useState } from 'react'; 
 
-const Login = ({onLogin}) => {
+const Login = ({ onLogin }) => {
   const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [password, setPassword] = useState(''); 
+
 
   const handleLogin = async () => {
     try {
+      const response = await fetch('account/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+      });
 
-        if(false)
-        {
-            
-        const response = await fetch('https://your-api-endpoint/login', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ username, password }),
-        });
-  
-        if (!response.ok) {
-          throw new Error('Login failed');
-        }
-  
-        const data = await response.json();
-  
-        // Stockez le token JWT dans le stockage local
-        localStorage.setItem('token', data.Token);
-    }
-    else
-    {
-    localStorage.setItem('token', 'Fake');
-    onLogin();
-    }
-        // Redirigez l'utilisateur vers une autre page ou effectuez d'autres actions nécessaires
-      } catch (error) {
-        console.error('Login failed', error);
+      if (!response.ok) {
+        throw new Error('Login failed');
       }
+
+      const data = await response.json();
+
+      localStorage.setItem('token', data.token);
+      window.location.href='/';
+    } catch (error) {
+      console.error('Login failed', error);
+    }
   };
 
   return (
